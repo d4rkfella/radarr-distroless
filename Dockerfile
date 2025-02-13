@@ -26,6 +26,8 @@ WORKDIR /app
 
 USER 65532
 
+RUN echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
+
 COPY --from=build /rootfs/app /app
 COPY --from=build /rootfs/bin/catatonit /bin/catatonit
 COPY --from=build /lib/ /lib
@@ -37,7 +39,6 @@ VOLUME ["/config"]
 
 ENV XDG_CONFIG_HOME=/config \
     DOTNET_EnableDiagnostics="0" \
-    DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false \
     UMASK="0002"
 
 ENTRYPOINT ["/bin/catatonit", "--", "/app/bin/Radarr", "-nobrowser"]
