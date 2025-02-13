@@ -21,7 +21,9 @@ FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.35-cbl-mariner2.0-distroless
 
 USER 65532
 
-COPY --from=build --chmod=755 /rootfs /
+COPY --from=build --chmod=755 /rootfs/app /app
+COPY --from=build --chmod=755 /rootfs/bin/catatonit /bin/catatonit
+COPY --from=build --chmod=755 /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
 
 EXPOSE 7878
 
