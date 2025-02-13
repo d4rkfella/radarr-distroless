@@ -6,12 +6,12 @@ WORKDIR /workdir
 
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends ca-certificates wget libsqlite3-0 catatonit \
-    && mkdir -p app /rootfs/bin /rootfs/usr/lib/ \
+    && mkdir -p app/bin /rootfs/bin /rootfs/usr/lib/ \
     && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
-    tar xvz --strip-components=1 --directory=app \
+    tar xvz --strip-components=1 --directory=app/bin \
     && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "develop" "${VERSION}" > ./app/package_info \
     && chown -R root:root ./app && chmod -R 755 ./app \
-    && rm -rf /tmp/* ./app/Radarr.Update \
+    && rm -rf /tmp/* ./app/bin/Radarr.Update \
     && mv app /rootfs/ \
     && cp -p /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
     && cp -p /usr/bin/catatonit /rootfs/bin/catatonit
