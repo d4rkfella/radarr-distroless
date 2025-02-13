@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.21 AS build
+FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.2-alpine3.21-extra AS build
 
 ARG VERSION=5.19.0.9697
 
@@ -8,17 +8,19 @@ RUN apk add --no-cache \
         ca-certificates \
         catatonit \
         sqlite-libs \
-    && mkdir -p app/bin /rootfs/bin /rootfs/usr/lib/ \
+    && mkdir -p app/bin /rootfs/bin \
     && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app/bin \
     && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "develop" "${VERSION}" > ./app/package_info \
     && chown -R root:root ./app && chmod -R 755 ./app \
     && rm -rf /tmp/* ./app/bin/Radarr.Update \
     && mv app /rootfs/ \
-    && cp -p /usr/lib/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
-    && cp -p /usr/bin/catatonit /rootfs/bin/catatonit
+    && cp -p /usr/bin/catatonit /rootfs/bin/catatonit \
+    && find /lib -type d -empty -delete \
+    && rm -r /lib/apk \
+    && rm -r /lib/sysctl.d
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.2-alpine3.21-extra
+FROM scratch
 
 WORKDIR /app
 
@@ -26,7 +28,9 @@ USER 65532
 
 COPY --from=build /rootfs/app /app
 COPY --from=build /rootfs/bin/catatonit /bin/catatonit
-COPY --from=build /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
+COPY --from=build /lib/ /lib
+COPY --from=build /usr/lib /usr/lib
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 VOLUME ["/config"]
 
