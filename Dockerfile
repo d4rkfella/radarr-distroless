@@ -36,8 +36,8 @@ VOLUME ["/config"]
 
 ENV XDG_CONFIG_HOME=/config \
     DOTNET_EnableDiagnostics="0" \
-    UMASK="0002" \
-    TZ="Etc/UTC"
+    DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false \
+    UMASK="0002"
 
 ENTRYPOINT ["/bin/catatonit", "--", "/app/bin/Radarr", "-nobrowser"]
 
