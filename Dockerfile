@@ -1,6 +1,6 @@
-ARG VERSION=5.18.4.9674
+FROM docker.io/library/alpine:3.21 AS build
 
-FROM docker.io/library/alpine:3.21 as build
+ARG VERSION=5.18.4.9674
 
 WORKDIR /workdir
 
