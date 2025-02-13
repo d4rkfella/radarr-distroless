@@ -1,17 +1,15 @@
 ARG VERSION=5.18.4.9674
 
-FROM docker.io/debian:bullseye-slim as build
+FROM docker.io/library/alpine:3.21 as build
 
 WORKDIR /workdir
 
-RUN apt-get update \
-    && apt-get install --yes --no-install-recommends ca-certificates wget libsqlite3-0 \
+RUN apk add --no-cache \
+    ca-certificates \
     && mkdir -p app /rootfs/usr/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" | \
+    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=${ARCH}" | \
     tar xvz --strip-components=1 --directory=app \
-    && mv app /rootfs/ \
-    && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0
-
+    && mv app /rootfs/
 WORKDIR /rootfs
 
 COPY --chmod=755 --chown=0:0 --from=busybox:1.37.0-musl /bin/wget /rootfs/wget
