@@ -6,6 +6,7 @@ WORKDIR /workdir
 
 RUN apk add --no-cache \
     ca-certificates \
+    curl \
     && mkdir -p app /rootfs/usr/lib/ \
     && curl -fsSL "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
