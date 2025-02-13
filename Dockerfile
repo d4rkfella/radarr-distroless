@@ -1,6 +1,6 @@
 FROM docker.io/library/alpine:3.21 AS build
 
-ARG VERSION=5.18.4.9674
+ARG VERSION=5.19.0.9697
 
 WORKDIR /workdir
 
@@ -8,12 +8,13 @@ RUN apk add --no-cache \
     ca-certificates \
     sqlite-libs \
     && mkdir -p app /rootfs/usr/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=x64" | \
+    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
-    && mv app /rootfs/ \
-    && find / -name "libsqlite*" -exec cp {} /rootfs/usr/lib/ \;
+    && mv app /rootfs/
 
 WORKDIR /rootfs
+
+RUN find /rootfs -name "libsqlite*" -exec cp -u {} /rootfs/usr/lib/ \;
 
 COPY --chmod=755 --chown=0:0 --from=busybox:1.37.0-musl /bin/wget /rootfs/wget
 
