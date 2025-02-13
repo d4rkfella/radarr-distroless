@@ -22,11 +22,11 @@ RUN apk add --no-cache \
 
 FROM scratch
 
+RUN echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
+
 WORKDIR /app
 
 USER 65532
-
-RUN echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
 
 COPY --from=build /rootfs/app /app
 COPY --from=build /rootfs/bin/catatonit /bin/catatonit
