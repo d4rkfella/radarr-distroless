@@ -5,12 +5,13 @@ ARG VERSION=5.19.0.9697
 WORKDIR /workdir
 
 RUN apt-get update \
-    && apt-get install --yes --no-install-recommends ca-certificates wget libsqlite3-0 \
-    && mkdir -p app /rootfs/usr/lib/ \
+    && apt-get install --yes --no-install-recommends ca-certificates wget libsqlite3-0 catatonit \
+    && mkdir -p app /catatonit /rootfs/usr/lib/ \
     && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/ \
-    && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0
+    && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
+    && cp /usr/bin/catatonit /rootfs/bin/catatonit
 
 WORKDIR /rootfs
 
@@ -32,5 +33,4 @@ ENV XDG_CONFIG_HOME=/config \
     UMASK="0002" \
     TZ="Etc/UTC"
 
-ENTRYPOINT [ "/app/Radarr" ]
-CMD [ "-nobrowser" ]
+ENTRYPOINT ["/bin/catatonit", "--", "/app/Radarr", "-nobrowser"]
