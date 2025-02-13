@@ -22,8 +22,6 @@ RUN apk add --no-cache \
 
 FROM scratch
 
-RUN echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
-
 WORKDIR /app
 
 USER 65532
@@ -33,6 +31,7 @@ COPY --from=build /rootfs/bin/catatonit /bin/catatonit
 COPY --from=build /lib/ /lib
 COPY --from=build /usr/lib /usr/lib
 COPY --from=build /usr/share/icu /usr/share/icu
+COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 VOLUME ["/config"]
