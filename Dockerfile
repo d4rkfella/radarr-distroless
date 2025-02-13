@@ -1,19 +1,16 @@
-FROM docker.io/library/alpine:3.21 AS build
+FROM docker.io/debian:bullseye-slim AS build
 
 ARG VERSION=5.19.0.9697
 
 WORKDIR /workdir
 
-RUN apk add --no-cache \
-    ca-certificates \
-    sqlite-libs \
-    && mkdir -p app /rootfs/usr/lib/ /rootfs/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends ca-certificates wget libsqlite3-0 \
+    && mkdir -p app /rootfs/usr/lib/ \
+    && wget -qO- "https://radarr.servarr.com/v1/develop/master/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/ \
-    && find -name "libsqlite*" -exec cp -u {} /rootfs/usr/lib/ \; \
-    && find -name "ld-musl-x86_64.so.1" -exec cp -u {} /rootfs/lib/ \; \
-    && find -name "libc.musl-x86_64.so.1" -exec cp -u {} /rootfs/lib/ \;
+    && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0
 
 WORKDIR /rootfs
 
@@ -23,9 +20,7 @@ FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.35-cbl-mariner2.0-distroless
 
 USER 65532
 
-COPY --from=build --chmod=755 /rootfs/usr /usr
-COPY --from=build --chmod=755 /rootfs/lib /lib
-COPY --from=build --chmod=755 /rootfs/app /app
+COPY --from=build --chmod=755 /rootfs /
 
 EXPOSE 7878
 
@@ -33,7 +28,9 @@ EXPOSE 7878
 #       https://github.com/dotnet/docs/issues/10217
 ENV XDG_CONFIG_HOME=/config \
     DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false \
-    COMPlus_EnableDiagnostics=0
+    COMPlus_EnableDiagnostics=0 \
+    UMASK="0002" \
+    TZ="Etc/UTC"
 
 ENTRYPOINT [ "/app/Radarr" ]
 CMD [ "-nobrowser" ]
