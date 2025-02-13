@@ -19,9 +19,7 @@ WORKDIR /app
 
 USER 65532
 
-COPY --from=build --chmod=755 /rootfs/app /app \
-    --from=build --chmod=755 /rootfs/bin/catatonit /bin/catatonit \
-    --from=build --chmod=755 /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
+COPY --from=build --chmod=755 /rootfs/ /
 
 EXPOSE 7878
 
