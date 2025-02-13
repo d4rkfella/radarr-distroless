@@ -23,7 +23,9 @@ FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.35-cbl-mariner2.0-distroless
 
 USER 65532
 
-COPY --from=build --chmod=755 /rootfs /
+COPY --from=build --chmod=755 /rootfs/usr /usr
+COPY --from=build --chmod=755 /rootfs/lib /lib
+COPY --from=build --chmod=755 /rootfs/app /app
 
 EXPOSE 7878
 
