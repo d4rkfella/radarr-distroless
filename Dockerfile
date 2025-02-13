@@ -9,9 +9,12 @@ RUN apt-get update \
     && mkdir -p app /rootfs/bin /rootfs/usr/lib/ \
     && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
+    && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "develop" "${VERSION}" > /app/package_info \
+    && chown -R root:root /app && chmod -R 755 /app \
+    && rm -rf /tmp/* /app/Radarr.Update
     && mv app /rootfs/ \
-    && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
-    && cp /usr/bin/catatonit /rootfs/bin/catatonit
+    && cp -p /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
+    && cp -p /usr/bin/catatonit /rootfs/bin/catatonit
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.35-cbl-mariner2.0-distroless
 
@@ -19,9 +22,9 @@ WORKDIR /app
 
 USER 65532
 
-COPY --from=build --chmod=755 /rootfs/app /app
-COPY --from=build --chmod=755 /rootfs/bin/catatonit /bin/catatonit
-COPY --from=build --chmod=755 /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
+COPY --from=build /rootfs/app /app
+COPY --from=build /rootfs/bin/catatonit /bin/catatonit
+COPY --from=build /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
 
 EXPOSE 7878
 
@@ -29,8 +32,10 @@ EXPOSE 7878
 #       https://github.com/dotnet/docs/issues/10217
 ENV XDG_CONFIG_HOME=/config \
     DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false \
-    COMPlus_EnableDiagnostics=0 \
+    DOTNET_EnableDiagnostics="0" \
     UMASK="0002" \
     TZ="Etc/UTC"
 
 ENTRYPOINT ["/bin/catatonit", "--", "/app/Radarr", "-nobrowser"]
+
+LABEL org.opencontainers.image.source="https://github.com/Radarr/Radarr"
