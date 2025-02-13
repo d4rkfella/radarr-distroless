@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/ \
-    && find / -name "libsqlite*" -exec cp {} /rootfs/usr/lib/
+    && find / -name "libsqlite*" -exec cp {} /rootfs/usr/lib/;
 
 WORKDIR /rootfs
 
