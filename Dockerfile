@@ -32,7 +32,7 @@ USER 65532
 VOLUME ["/config"]
 
 ENV XDG_CONFIG_HOME=/config \
-    DOTNET_RUNNING_IN_CONTAINER=true
+    DOTNET_RUNNING_IN_CONTAINER=true \
     DOTNET_EnableDiagnostics="0" \
     UMASK="0002"
 
