@@ -7,11 +7,13 @@ WORKDIR /workdir
 RUN apk add --no-cache \
     ca-certificates \
     sqlite-libs \
-    && mkdir -p app /rootfs/usr/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
+    && mkdir -p app /rootfs/usr/lib/ /rootfs/lib/ \
+    && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/ \
-    && cp /usr/lib/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0
+    && find /rootfs -name "libsqlite*" -exec cp -u {} /rootfs/usr/lib/ \; \
+    && find /rootfs -name "ld-musl-x86_64.so.1" -exec cp -u {} /rootfs/lib/ \; \
+    && find /rootfs -name "libc.musl-x86_64.so.1" -exec cp -u {} /rootfs/lib/ \;
 
 WORKDIR /rootfs
 
