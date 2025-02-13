@@ -5,7 +5,6 @@ ARG VERSION=5.19.0.9697
 WORKDIR /workdir
 
 RUN apk add --no-cache \
-        ca-certificates \
         catatonit \
         sqlite-libs \
     && mkdir -p app/bin /rootfs/bin \
@@ -13,19 +12,14 @@ RUN apk add --no-cache \
     tar xvz --strip-components=1 --directory=app/bin \
     && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "develop" "${VERSION}" > ./app/package_info \
     && chown -R root:root ./app && chmod -R 755 ./app \
-    && rm -rf /tmp/* ./app/bin/Radarr.Update \
-    && mv app /rootfs/ \
-    && cp -p /usr/bin/catatonit /rootfs/bin/catatonit \
-    && find /lib -type d -empty -delete \
-    && rm -rf /lib/apk \
-    && rm -rf /lib/sysctl.d
+    && rm -rf ./app/bin/Radarr.Update
 
 FROM scratch
 
 WORKDIR /app
 
-COPY --from=build /rootfs/app /app
-COPY --from=build /rootfs/bin/catatonit /bin/catatonit
+COPY --from=build /workdir/app /app
+COPY --from=build /usr/bin/catatonit /usr/bin/catatonit
 COPY --from=build /usr/share/icu /usr/share/icu
 COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
@@ -38,6 +32,7 @@ USER 65532
 VOLUME ["/config"]
 
 ENV XDG_CONFIG_HOME=/config \
+    DOTNET_RUNNING_IN_CONTAINER=true
     DOTNET_EnableDiagnostics="0" \
     UMASK="0002"
 
