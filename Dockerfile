@@ -30,6 +30,7 @@ COPY --from=build /rootfs/app /app
 COPY --from=build /rootfs/bin/catatonit /bin/catatonit
 COPY --from=build /lib/ /lib
 COPY --from=build /usr/lib /usr/lib
+COPY --from=build /usr/share/icu /usr/share/icu
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 VOLUME ["/config"]
