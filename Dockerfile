@@ -11,19 +11,22 @@ RUN apt-get update \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/ \
     && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
-    && cp /usr/bin/catatonit /rootfs/bin/catatonit
-
-WORKDIR /rootfs
+    && cp /usr/bin/catatonit /rootfs/bin/catatonit \
+    && apt-get remove --purge -y ca-certificates wget libsqlite3-0 catatonit  \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --chmod=755 --chown=0:0 --from=busybox:1.37.0-musl /bin/wget /rootfs/wget
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.35-cbl-mariner2.0-distroless
 
+WORKDIR /app
+
 USER 65532
 
-COPY --from=build --chmod=755 /rootfs/app /app
-COPY --from=build --chmod=755 /rootfs/bin/catatonit /bin/catatonit
-COPY --from=build --chmod=755 /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
+COPY --from=build --chmod=755 /rootfs/app /app \
+     --from=build --chmod=755 /rootfs/bin/catatonit /bin/catatonit \
+     --from=build --chmod=755 /rootfs/usr/lib/libsqlite3.so.0 /usr/lib/libsqlite3.so.0
 
 EXPOSE 7878
 
