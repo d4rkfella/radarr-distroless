@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     ca-certificates \
     sqlite-libs \
     && mkdir -p app /rootfs/usr/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
+    && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/
 
