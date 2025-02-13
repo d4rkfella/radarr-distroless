@@ -10,8 +10,8 @@ RUN apt-get update \
     && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=x64" | \
     tar xvz --strip-components=1 --directory=app \
     && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "develop" "${VERSION}" > /workdir/app/package_info \
-    && chown -R root:root /app && chmod -R 755 /app \
-    && rm -rf /tmp/* /app/Radarr.Update \
+    && chown -R root:root ./app && chmod -R 755 ./app \
+    && rm -rf /tmp/* ./app/Radarr.Update \
     && mv app /rootfs/ \
     && cp -p /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0 \
     && cp -p /usr/bin/catatonit /rootfs/bin/catatonit
