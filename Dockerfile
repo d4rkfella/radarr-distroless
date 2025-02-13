@@ -7,7 +7,7 @@ WORKDIR /workdir
 RUN apk add --no-cache \
     ca-certificates \
     && mkdir -p app /rootfs/usr/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=${ARCH}" | \
+    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=amd64" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/
 WORKDIR /rootfs
