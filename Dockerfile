@@ -37,6 +37,6 @@ ENV XDG_CONFIG_HOME=/config \
     TZ="Etc/UTC" \
     UMASK="0002"
 
-ENTRYPOINT ["/bin/catatonit", "--", "/app/bin/Radarr", "-nobrowser"]
+ENTRYPOINT ["/usr/bin/catatonit", "--", "/app/bin/Radarr", "-nobrowser"]
 
 LABEL org.opencontainers.image.source="https://github.com/Radarr/Radarr"
