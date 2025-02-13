@@ -28,11 +28,19 @@ USER 65532
 
 COPY --from=build /rootfs/app /app
 COPY --from=build /rootfs/bin/catatonit /bin/catatonit
-COPY --from=build /lib/ /lib
-COPY --from=build /usr/lib /usr/lib
 COPY --from=build /usr/share/icu /usr/share/icu
 COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY /usr/lib/libz.so.* /usr/lib/
+COPY /usr/lib/libcrypto.so.* /usr/lib/
+COPY /usr/lib/libssl.so.* /usr/lib/
+COPY /usr/lib/libicui18n.so.* /usr/lib/
+COPY /usr/lib/libicudata.so.* /usr/lib/
+COPY /usr/lib/libicuuc.so.* /usr/lib/
+COPY /usr/lib/libgcc_s.so.* /usr/lib/
+COPY /usr/lib/libstdc++.so.* /usr/lib/
+COPY /lib/ld-musl-x86_64.so.* /lib/
+COPY /usr/lib/libsqlite3.so.* /usr/lib/
 
 VOLUME ["/config"]
 
