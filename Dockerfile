@@ -24,8 +24,6 @@ FROM scratch
 
 WORKDIR /app
 
-RUN mknod -m 666 /dev/urandom c 1 9
-
 COPY --from=build /rootfs/app /app
 COPY --from=build /rootfs/bin/catatonit /bin/catatonit
 COPY --from=build /usr/share/icu /usr/share/icu
