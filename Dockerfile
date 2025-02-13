@@ -17,8 +17,8 @@ RUN apk add --no-cache \
     && mv app /rootfs/ \
     && cp -p /usr/bin/catatonit /rootfs/bin/catatonit \
     && find /lib -type d -empty -delete \
-    && rm -r /lib/apk \
-    && rm -r /lib/sysctl.d
+    && rm -rf /lib/apk \
+    && rm -rf /lib/sysctl.d
 
 FROM scratch
 
