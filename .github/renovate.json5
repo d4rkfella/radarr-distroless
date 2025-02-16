@@ -1,6 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "prerelease": true,
   "extends": [
     "config:recommended",
     "docker:enableMajor",
@@ -15,6 +14,10 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "packageRules": [
+    {
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "prerelease": true
+    }
     {
       "matchDatasources": ["github-releases", "github-tags"],
       "matchUpdateTypes": ["major"],
