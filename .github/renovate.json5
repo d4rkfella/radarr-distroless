@@ -15,15 +15,12 @@
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "packageRules": [
     {
-      "matchUpdateTypes": ["major", "minor", "patch"],
-      "prerelease": true
-    },
-    {
       "matchDatasources": ["github-releases", "github-tags"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(github-release)!: ",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "ignoreUnstable": false
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
@@ -31,7 +28,8 @@
       "semanticCommitType": "feat",
       "semanticCommitScope": "github-release",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "ignoreUnstable": false
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
@@ -39,7 +37,8 @@
       "semanticCommitType": "fix",
       "semanticCommitScope": "github-release",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "ignoreUnstable": false
     },
     {
       "matchDatasources": ["docker"],
