@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.2-alpine3.21-extra AS build
 
-# renovate: datasource=github-tags depName=Radarr/Radarr
+# renovate: datasource=github-releases depName=Radarr/Radarr
 ARG VERSION=v5.19.0.9697
 
 WORKDIR /workdir
