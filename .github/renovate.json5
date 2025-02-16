@@ -12,6 +12,21 @@
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": ["Process ARG version in Dockerfile"],
+      "fileMatch": ["Dockerfile"],
+      "matchStrings": [
+        "# renovate: depName=(?<depName>\\S+)\\s*\\nARG (?<argName>\\S+)=v(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver",
+      "depNameTemplate": "{{depName}}",
+      "packageNameTemplate": "{{depName}}",
+      "lookupNameTemplate": "{{depName}}"
+    }
+  ],
   "packageRules": [
     {
       "matchDatasources": ["docker"],
