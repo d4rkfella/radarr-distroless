@@ -17,7 +17,7 @@
     {
       "matchUpdateTypes": ["major", "minor", "patch"],
       "prerelease": true
-    }
+    },
     {
       "matchDatasources": ["github-releases", "github-tags"],
       "matchUpdateTypes": ["major"],
