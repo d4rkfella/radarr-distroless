@@ -4,8 +4,7 @@
     {
       "customType": "regex",
       "description": ["Process Dockerfile custom dependencies"],
-      "fileMatch": ["^Dockerfile$"],
-      "ignoreUnstable": "false",
+      "fileMatch": ["(^|/)Dockerfile$"],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s*\\nARG (?<argName>\\S+)=v(?<currentValue>\\S+)"
       ],
