@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.2-alpine3.21-extra AS build
 
+# renovate: depName=Radarr/Radarr
 ARG VERSION=5.19.0.9697
 
 WORKDIR /workdir
