@@ -19,14 +19,14 @@
       "ignoreUnstable": false
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": ["github-releases"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(github-release)!: ",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": ["github-releases"],
       "matchUpdateTypes": ["minor"],
       "semanticCommitType": "feat",
       "semanticCommitScope": "github-release",
@@ -34,7 +34,7 @@
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": ["github-releases"],
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": "fix",
       "semanticCommitScope": "github-release",
@@ -114,6 +114,10 @@
     {
       "matchManagers": ["github-actions"],
       "addLabels": ["renovate/github-action"]
-    }
+    },
+    {
+      "matchDatasources": ["github-releases"],
+      "addLabels": ["renovate/github-release"]
+    },
   ]
 }
