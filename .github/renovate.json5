@@ -16,11 +16,14 @@
   "packageRules": [
     {
       "matchDatasources": ["github-releases", "github-tags"],
+      "ignoreUnstable": false
+    },
+    {
+      "matchDatasources": ["github-releases", "github-tags"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(github-release)!: ",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
-      "ignoreUnstable": false
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
@@ -28,8 +31,7 @@
       "semanticCommitType": "feat",
       "semanticCommitScope": "github-release",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
-      "ignoreUnstable": false
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
@@ -37,8 +39,7 @@
       "semanticCommitType": "fix",
       "semanticCommitScope": "github-release",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
-      "ignoreUnstable": false
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
     },
     {
       "matchDatasources": ["docker"],
