@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.2-alpine3.21-extra AS build
 
 # renovate: datasource=github-releases depName=Radarr/Radarr
-ARG VERSION=v5.19.1.9704
+ARG VERSION=v5.18.4.9674
 
 WORKDIR /workdir
 
@@ -9,9 +9,9 @@ RUN apk add --no-cache \
         catatonit \
         sqlite-libs \
     && mkdir -p app/bin /rootfs/bin \
-    && wget -qO- "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION#v}&os=linuxmusl&runtime=netcore&arch=x64" | \
+    && wget -qO- "https://github.com/Radarr/Radarr/releases/download/${VERSION}/Radarr.master.${VERSION#v}.linux-musl-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin \
-    && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "develop" "${VERSION#v}" > ./app/package_info \
+    && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "release" "${VERSION#v}" > ./app/package_info \
     && chown -R root:root ./app && chmod -R 755 ./app \
     && rm -rf ./app/bin/Radarr.Update
 
