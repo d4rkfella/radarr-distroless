@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     && mkdir -p app/bin /rootfs/bin \
     && wget -qO- "https://github.com/Radarr/Radarr/releases/download/${VERSION}/Radarr.master.${VERSION#v}.linux-musl-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin \
-    && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "release" "${VERSION#v}" > ./app/package_info \
+    && printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${VERSION#v}" > ./app/package_info \
     && chown -R root:root ./app && chmod -R 755 ./app \
     && rm -rf ./app/bin/Radarr.Update
 
