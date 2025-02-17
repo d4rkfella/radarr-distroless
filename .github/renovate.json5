@@ -16,10 +16,6 @@
   "packageRules": [
     {
       "matchDatasources": ["github-releases"],
-      "ignoreUnstable": false
-    },
-    {
-      "matchDatasources": ["github-releases"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(github-release)!: ",
       "commitMessageTopic": "{{depName}}",
