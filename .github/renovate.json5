@@ -19,9 +19,9 @@
   packageRules: [
     {
       matchPackageNames: [
-        'Radarr/Radarr'
+        'Radarr/Radarr',
       ],
-      allowPrereleases: true
+      ignoreUnstable: false
     },
     {
       description: [
