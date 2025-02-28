@@ -1,7 +1,7 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:9c86299eaeb27bfec41728fc56a19fa00656c001c0f01228b203379e5ac3ef28 AS build
 
 # renovate: datasource=github-tags depName=Radarr/Radarr
-ARG RADARR_VERSION=5.18.4.9674
+ARG RADARR_VERSION=v5.17.2.9580
 # renovate: datasource=github-releases depName=openSUSE/catatonit
 ARG CATATONIT_VERSION=v0.2.1
 
@@ -18,9 +18,9 @@ RUN apk add --no-cache \
     gpg --verify /tmp/catatonit.x86_64.asc /tmp/catatonit.x86_64 && \
     mv /tmp/catatonit.x86_64 usr/bin/catatonit && \
     chmod +x usr/bin/catatonit && \
-    curl -fsSL "https://github.com/Radarr/Radarr/releases/download/v${RADARR_VERSION}/Radarr.master.${RADARR_VERSION}.linux-core-x64.tar.gz" | \
+    curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${RADARR_VERSION}/Radarr.master.${RADARR_VERSION#v}.linux-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin && \
-    printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${RADARR_VERSION}" > app/package_info && \
+    printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${RADARR_VERSION#v}" > app/package_info && \
     rm -rf app/bin/Radarr.Update
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:9c86299eaeb27bfec41728fc56a19fa00656c001c0f01228b203379e5ac3ef28
