@@ -32,8 +32,8 @@ RUN apk add --no-cache \
         sqlite-libs && \
     echo "radarr:x:65532:65532::/nonexistent:/sbin/nologin" > /etc/passwd && \
     echo "radarr:x:65532:" > /etc/group && \
-    find / \( -path /proc -o -path /sys -o -path /dev \) -prune -o -type l -exec sh -c 'if [ "$(readlink "$1")" = "/bin/busybox" ]; then echo "$1"; fi' _ {} \; | xargs rm && \
     rm -rf /home/* && \
+    find / \( -path /proc -o -path /sys -o -path /dev \) -prune -o -type l -exec sh -c 'if [ "$(readlink "$1")" = "/bin/busybox" ]; then echo "$1"; fi' _ {} \; | xargs rm && \
     apk del --no-cache --purge wolfi-base busybox wolfi-keys apk-tools readline
 
 COPY --from=build /rootfs /
