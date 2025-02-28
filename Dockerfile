@@ -1,7 +1,7 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:9c86299eaeb27bfec41728fc56a19fa00656c001c0f01228b203379e5ac3ef28 AS build
 
 # renovate: datasource=github-tags depName=Radarr/Radarr
-ARG RADARR_VERSION=v5.17.2.9580
+ARG RADARR_VERSION=v5.19.3.9730
 # renovate: datasource=github-releases depName=openSUSE/catatonit
 ARG CATATONIT_VERSION=v0.2.1
 
