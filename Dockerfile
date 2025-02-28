@@ -18,7 +18,7 @@ RUN apk add --no-cache \
     gpg --verify /tmp/catatonit.x86_64.asc /tmp/catatonit.x86_64 && \
     mv /tmp/catatonit.x86_64 usr/bin/catatonit && \
     chmod +x usr/bin/catatonit && \
-    curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${RADARR_VERSION}/Radarr.master.${RADARR_VERSION#v}.linux-x64.tar.gz" | \
+    curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${RADARR_VERSION}/Radarr.master.${RADARR_VERSION#v}.linux-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin && \
     printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${RADARR_VERSION#v}" > app/package_info && \
     rm -rf app/bin/Radarr.Update
