@@ -3,17 +3,26 @@
   "extends": [
     "config:recommended",
     "docker:enableMajor",
+    "customManagers:dockerfileVersions",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":automergeBranch",
     ":skipStatusChecks",
     ":timezone(Europe/Sofia)",
-    ":semanticCommits",
-    "github>d4rkfella/radarr-distroless//.github/renovate/customManager.json5",
+    ":semanticCommits"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "packageRules": [
+    {
+      "description": ["Dockerfile Group"],
+      "matchDatasources": ["github-releases", "docker", "github-tags"],
+      "matchPackageNames": ["*"],
+      "groupName": "Dockerfile",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
     {
       "matchDatasources": ["github-releases"],
       "matchUpdateTypes": ["major"],
@@ -54,7 +63,9 @@
       "semanticCommitType": "feat",
       "semanticCommitScope": "container",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
       "matchDatasources": ["docker"],
@@ -62,7 +73,19 @@
       "semanticCommitType": "fix",
       "semanticCommitScope": "container",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "container",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "( {{currentDigestShort}} → {{newDigestShort}} )",
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
       "matchManagers": ["github-actions"],
@@ -77,7 +100,9 @@
       "semanticCommitType": "feat",
       "semanticCommitScope": "github-action",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
       "matchManagers": ["github-actions"],
@@ -85,15 +110,9 @@
       "semanticCommitType": "fix",
       "semanticCommitScope": "github-action",
       "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
-    },
-    {
-      "description": ["Auto-merge GitHub Actions for minor and patch"],
-      "matchManagers": ["github-actions"],
-      "matchDatasources": ["github-tags"],
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
       "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch"]
+      "automergeType": "branch"
     },
     {
       "matchUpdateTypes": ["major"],
@@ -106,6 +125,10 @@
     {
       "matchUpdateTypes": ["patch"],
       "labels": ["type/patch"]
+    },
+    {
+      "matchUpdateTypes": ["digest"],
+      "labels": ["type/digest"]
     },
     {
       "matchDatasources": ["docker"],
