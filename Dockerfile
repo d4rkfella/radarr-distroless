@@ -21,20 +21,11 @@ RUN apk add --no-cache \
     curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${RADARR_VERSION}/Radarr.master.${RADARR_VERSION#v}.linux-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin && \
     printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${RADARR_VERSION#v}" > app/package_info && \
-    rm -rf app/bin/Radarr.Update
+    rm -rf app/bin/Radarr.Update && \
+    echo "radarr:x:65532:65532::/nonexistent:/sbin/nologin" > etc/passwd && \
+    echo "radarr:x:65532:" > etc/group
 
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:9c86299eaeb27bfec41728fc56a19fa00656c001c0f01228b203379e5ac3ef28
-
-RUN apk add --no-cache \
-        readline \
-        tzdata \
-        icu-libs \
-        sqlite-libs && \
-    echo "radarr:x:65532:65532::/nonexistent:/sbin/nologin" > /etc/passwd && \
-    echo "radarr:x:65532:" > /etc/group && \
-    rm -rf /home/* && \
-    find / \( -path /proc -o -path /sys -o -path /dev \) -prune -o -type l -exec sh -c 'if [ "$(readlink "$1")" = "/bin/busybox" ]; then echo "$1"; fi' _ {} \; | xargs rm && \
-    apk del --no-cache --purge wolfi-base busybox wolfi-keys apk-tools readline
+FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:1.0.0@sha256:0318fe4613d9293bf2ad655debc4f87a10223eb66a5f8317bc5cdc1d886099d3
 
 COPY --from=build /rootfs /
 
