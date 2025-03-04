@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:9c86299eaeb27bfec41728fc56a19fa00656c001c0f01228b203379e5ac3ef28 AS build
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:5ec50de5d68fc25ca132976c4f4c29e2763749210aef0e3811281fb3a6a9031b AS build
 
 # renovate: datasource=github-tags depName=Radarr/Radarr
 ARG RADARR_VERSION=v5.19.3.9730
@@ -20,7 +20,7 @@ RUN apk add --no-cache \
     echo "radarr:x:65532:65532::/nonexistent:/sbin/nologin" > etc/passwd && \
     echo "radarr:x:65532:" > etc/group
 
-FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:1.0.0@sha256:f2b25f65ef553002faf80082d284ca87f9fea82a435f3d75271ec6bb048cf372
+FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:1.0.0@sha256:f830c91c552c83c41e597517e91583d3b064a9efb9f29a94142084a20f201a0f
 
 COPY --from=build /rootfs /
 
