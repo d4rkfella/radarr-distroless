@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:2903fde551f9cd973aa7511653ff82f60dceedd4d56e4c2e1af390c4dfb939d0 AS build
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:7b05dd6ccd1abdc790b54c64e8ab0bc0d994c39ea04bbc115a021562d5b42bb7 AS build
 
 # renovate: datasource=github-tags depName=Radarr/Radarr
 ARG RADARR_VERSION=v5.19.3.9730
