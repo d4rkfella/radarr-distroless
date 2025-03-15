@@ -1,17 +1,12 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:fb9a7aedf73e6eb6c74206e61bcf60298436f4f7ab263d9cf61795097437221f AS build
 
 # renovate: datasource=github-tags depName=Radarr/Radarr
-ARG RADARR_VERSION=v5.20.0.9752
-# renovate: datasource=github-releases depName=openSUSE/catatonit
-ARG CATATONIT_VERSION=v0.2.1
+ARG RADARR_VERSION=v5.19.3.9730
 
 WORKDIR /rootfs
 
 RUN apk add --no-cache \
-        curl \
-        gpg \
-        gpg-agent \
-        gnupg-dirmngr && \
+        curl && \
     mkdir -p app/bin etc && \
     curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${RADARR_VERSION}/Radarr.master.${RADARR_VERSION#v}.linux-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin && \
