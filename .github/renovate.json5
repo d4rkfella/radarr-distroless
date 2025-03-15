@@ -18,19 +18,12 @@
   ],
   packageRules: [
     {
-      matchPackageNames: [
-        'Radarr/Radarr',
-      ],
-      ignoreUnstable: false
-    },
-    {
       description: [
         'Dockerfile Group',
       ],
       matchDatasources: [
         'github-releases',
-        'docker',
-        'github-tags',
+        'docker'
       ],
       matchPackageNames: [
         '*',
