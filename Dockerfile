@@ -15,7 +15,7 @@ RUN apk add --no-cache \
     echo "radarr:x:65532:65532::/nonexistent:/sbin/nologin" > etc/passwd && \
     echo "radarr:x:65532:" > etc/group
 
-FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:latest@sha256:b13333acf00aa862e9c25b95edf36be71484d6d7bad68e899c3a0f6928202cb1
+FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:latest@sha256:b8b557a9486edb9207668f2f4b418ffdd3003095d7b929022898df42a86b8af8
 
 COPY --from=build /rootfs /
 
