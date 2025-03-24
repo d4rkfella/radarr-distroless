@@ -1,30 +1,21 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:91ed94ec4e72368a9b5113f2ffb1d8e783a91db489011a89d9fad3e3816a75ba AS build
 
 # renovate: datasource=github-releases depName=Radarr/Radarr
-ARG RADARR_VERSION=v5.19.3.9730
+ARG VERSION=v5.20.2.9777
 
 WORKDIR /rootfs
 
 RUN apk add --no-cache \
         curl && \
-    mkdir -p app/bin etc && \
-    curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${RADARR_VERSION}/Radarr.master.${RADARR_VERSION#v}.linux-core-x64.tar.gz" | \
+    mkdir -p app/bin && \
+    curl -fsSL "https://github.com/Radarr/Radarr/releases/download/${VERSION}/Radarr.master.${VERSION#v}.linux-core-x64.tar.gz" | \
     tar xvz --strip-components=1 --directory=app/bin && \
-    printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${RADARR_VERSION#v}" > app/package_info && \
-    rm -rf app/bin/Radarr.Update && \
-    echo "radarr:x:65532:65532::/nonexistent:/sbin/nologin" > etc/passwd && \
-    echo "radarr:x:65532:" > etc/group
+    printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[d4rkfella](https://github.com/d4rkfella)\n" "master" "${VERSION#v}" > app/package_info && \
+    rm -rf app/bin/Radarr.Update
 
-FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:latest@sha256:60e5c5085bb9d2dce93e56c9a95e64806c91394bd401b7f8427e48b2db936cc8
+FROM ghcr.io/d4rkfella/wolfi-dotnet-runtime-deps:latest@sha256:b4e7bd3c8df21b51129a703ed55e18f736d21136af1230d8420c77f99e6c8c29
 
 COPY --from=build /rootfs /
-
-USER radarr:radarr
-
-WORKDIR /app
-
-VOLUME ["/config"]
-EXPOSE 7878
 
 ENV XDG_CONFIG_HOME=/config \
     DOTNET_RUNNING_IN_CONTAINER=true \
@@ -32,7 +23,6 @@ ENV XDG_CONFIG_HOME=/config \
     TZ="Etc/UTC" \
     UMASK="0002" 
 
-ENTRYPOINT [ "catatonit", "--", "/app/bin/Radarr" ]
-CMD [ "-nobrowser" ]
+CMD [ "/app/bin/Radarr", "-nobrowser" ]
 
 LABEL org.opencontainers.image.source="https://github.com/Radarr/Radarr"
