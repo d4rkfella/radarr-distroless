@@ -34,7 +34,6 @@ jobs:
       - name: Extract version
         shell: bash
         run: |
-          PACKAGE=autobrr
           LATEST_VERSION=$(
               aws s3api list-objects-v2 \
               --bucket "$BUCKET" \
