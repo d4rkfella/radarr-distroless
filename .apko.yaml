@@ -4,11 +4,9 @@ contents:
   repositories:
     - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
-    - tzdata
     - radarr
     - catatonit
+    - tzdata
 volumes: [ "/config" ]
 accounts:
   groups:
