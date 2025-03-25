@@ -6,7 +6,6 @@ contents:
   packages:
     - radarr
     - catatonit
-    - tzdata
 volumes: [ "/config" ]
 accounts:
   groups:
@@ -29,5 +28,5 @@ environment:
   UMASK: "0002"
 entrypoint: 
   command:
-    /usr/bin/catatonit -- /usr/lib/Radarr/Radarr
+    /usr/bin/catatonit -- /usr/lib/Radarr/bin/Radarr
 cmd: --nobrowser
